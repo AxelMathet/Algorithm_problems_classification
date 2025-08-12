@@ -22,7 +22,7 @@ def load_models(tags):
         models[tag]=joblib.load(f"saved_models/xgb_model_{tag}.joblib")
     return tfidf_desc, tfidf_code, scaler, models
 
-# This function preprocess the json input and returns a vector 
+# This function preprocesses the json input and returns a vector 
 def preprocess_input(data, tfidf_desc, tfidf_code, scaler, mean_difficulty):
     # Checking if prob_desc_description is present
     if "prob_desc_description" not in data or not data["prob_desc_description"]:
@@ -57,6 +57,7 @@ def predict(X_final, models, prediction_threshold):
 
 
 def main():
+    # Checking the format of the input
     if len(sys.argv)!=3:
         print(f"Usage: python <xgboost_tags_predictor.py> <input.json|input_folder> <output.csv>")
         sys.exit(1)
@@ -64,6 +65,7 @@ def main():
     output_path=sys.argv[2]
 
     try:
+        # Loading models, vectorizers and constants
         constants=load_constants()
         tags=constants["tags"]
         prediction_threshold=constants["prediction_threshold"] 
